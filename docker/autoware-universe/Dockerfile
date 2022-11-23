@@ -25,15 +25,15 @@ RUN mkdir -p ~/.ssh \
   && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ## Set up development environment
-RUN --mount=type=ssh \
-  # ./setup-dev-env.sh -y $SETUP_ARGS universe \
-  && pip uninstall -y ansible ansible-core \
-  && mkdir src \
-  && vcs import src < autoware.repos \
-  && rosdep update \
-  && DEBIAN_FRONTEND=noninteractive rosdep install -y --ignore-src --from-paths src --rosdistro "$ROS_DISTRO" \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+# RUN --mount=type=ssh \
+#   ./setup-dev-env.sh -y $SETUP_ARGS universe \
+#   && pip uninstall -y ansible ansible-core \
+#   && mkdir src \
+#   && vcs import src < autoware.repos \
+#   && rosdep update \
+#   && DEBIAN_FRONTEND=noninteractive rosdep install -y --ignore-src --from-paths src --rosdistro "$ROS_DISTRO" \
+#   && apt-get clean \
+#   && rm -rf /var/lib/apt/lists/*
 
 ## Clean up unnecessary files
 RUN rm -rf \
@@ -50,7 +50,7 @@ RUN chmod 644 /etc/glvnd/egl_vendor.d/10_nvidia.json
 
 ## Create entrypoint
 # hadolint ignore=DL3059
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" > /etc/bash.bashrc
+# RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" > /etc/bash.bashrc
 CMD ["/bin/bash"]
 
 FROM devel as prebuilt
